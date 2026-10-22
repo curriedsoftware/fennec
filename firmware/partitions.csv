@@ -1,0 +1,14 @@
+# Flash layout of the Atom Echo (4 MB).
+#
+# Two app slots for over-the-air updates, plus separate partitions for the
+# device configuration and the wake word model, so neither needs a firmware
+# rebuild. `fennec flash` and `fennec ota` write the last two.
+#
+# Name,       Type, SubType,   Offset,   Size
+nvs,          data, nvs,     0x9000,   0x6000
+otadata,      data, ota,     0xf000,   0x2000
+phy_init,     data, phy,     0x11000,  0x1000
+ota_0,        app,  ota_0,   0x20000,  0x1A0000
+ota_1,        app,  ota_1,   0x1C0000, 0x1A0000
+fennec_cfg,   data, undefined,   0x360000, 0x10000
+fennec_model, data, undefined,   0x370000, 0x90000

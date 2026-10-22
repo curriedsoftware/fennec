@@ -1,0 +1,5 @@
+/target
+/.embuild
+/sdkconfig
+/fennec.toml
+*.toml.local

@@ -1,0 +1,25 @@
+[build]
+target = "xtensa-esp32-espidf"
+
+[target.xtensa-esp32-espidf]
+linker = "ldproxy"
+# Erasing otadata boots the slot just written, even after an OTA update.
+runner = "espflash flash --monitor --flash-freq 80mhz --erase-parts otadata"
+rustflags = ["--cfg", "espidf_time64"]
+
+[unstable]
+build-std = ["std", "panic_abort"]
+
+[env]
+MCU = "esp32"
+# esp-idf-sys otherwise guesses the workspace from the target directory, and
+# with a custom CARGO_TARGET_DIR silently loses `sdkconfig.defaults` and the
+# extra components in Cargo.toml (only a build warning says so).
+CARGO_WORKSPACE_DIR = { value = "", relative = true }
+# ESP-IDF release used by esp-idf-sys; it is downloaded into `.embuild/` on the
+# first build.
+ESP_IDF_VERSION = "v5.5.5"
+# Relative to firmware/. Without `relative`, esp-idf-sys looks for it next to
+# the target directory, so a custom CARGO_TARGET_DIR silently builds with
+# ESP-IDF's defaults (and a main task stack too small for Fennec).
+ESP_IDF_SDKCONFIG_DEFAULTS = { value = "sdkconfig.defaults", relative = true }
