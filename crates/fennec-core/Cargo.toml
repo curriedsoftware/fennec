@@ -1,0 +1,10 @@
+[package]
+name = "fennec-core"
+description = "Audio front end, wake word inference and recording helpers shared by the Fennec firmware and CLI"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+bytemuck = { version = "1.25.2", default-features = false }
+libm = "0.2.16"
+microfft = { version = "0.6.0", default-features = false, features = ["size-512"] }

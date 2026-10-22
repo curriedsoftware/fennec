@@ -1,0 +1,52 @@
+[package]
+name = "fennec-firmware"
+description = "Fennec firmware for the M5Stack Atom Echo"
+version = "0.1.0"
+edition = "2024"
+publish = false
+
+[[bin]]
+name = "fennec-firmware"
+harness = false
+
+[profile.release]
+opt-level = "s"
+debug = true
+
+# Wake word inference and the audio front end run every 10-100 ms; they are
+# worth optimizing for speed rather than size.
+[profile.release.package.fennec-core]
+opt-level = 3
+
+[profile.dev]
+debug = true
+opt-level = "z"
+
+[lints.rust]
+# Set by esp-idf-sys from the ESP-IDF configuration.
+unexpected_cfgs = { level = "warn", check-cfg = ["cfg(esp_idf_esp_wifi_softap_support)"] }
+
+[dependencies]
+fennec-core = { path = "../crates/fennec-core" }
+esp-idf-svc = "0.53.0"
+log = "0.4.34"
+embedded-svc = "0.29"
+anyhow = "1.0.104"
+
+[features]
+default = ["telegram", "opus"]
+# Upload recordings to a Telegram chat. Without it the device records and
+# only logs what it heard.
+telegram = []
+# Upload recordings as Telegram voice notes (Ogg Opus) instead of WAV
+# documents. Needs the libopus source in FENNEC_OPUS_SRC, which the flake
+# provides.
+opus = ["telegram"]
+
+# libopus, for the `opus` feature. Without FENNEC_OPUS_SRC the component is
+# empty; see components/opus/CMakeLists.txt.
+[[package.metadata.esp-idf-sys.extra_components]]
+component_dirs = "components/opus"
+
+[build-dependencies]
+embuild = "0.33.7"

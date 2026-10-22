@@ -1,0 +1,30 @@
+[package]
+name = "fennec-cli"
+description = "Synthesize data for, train and test Fennec wake word models"
+version.workspace = true
+edition.workspace = true
+
+[[bin]]
+name = "fennec"
+path = "src/main.rs"
+
+[dependencies]
+anyhow = "1.0.104"
+bytemuck = "1.25.2"
+candle-core = "0.11.0"
+candle-nn = "0.11.0"
+clap = { version = "4.6.7", features = ["derive", "env"] }
+fennec-core = { path = "../fennec-core" }
+hound = "3.5.1"
+indicatif = "0.18.6"
+rand = "0.10.3"
+rayon = "1.12.0"
+reqwest = { version = "0.13.5", default-features = false, features = ["blocking", "rustls"] }
+serde = { version = "1.0.229", features = ["derive"] }
+serde_json = "1.0.154"
+toml = "1.1.8"
+
+[features]
+# Trains on an NVIDIA GPU when one is available. Building needs the CUDA
+# toolkit; see "Training on a GPU" in the README.
+cuda = ["candle-core/cuda", "candle-nn/cuda"]

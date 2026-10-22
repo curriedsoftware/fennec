@@ -1,0 +1,81 @@
+# Fennec device configuration.
+#
+# Copy this file to `fennec.toml` (ignored by git) and fill it in. The
+# firmware is the same for every device; these settings are written to their
+# own flash partition:
+#
+#     fennec flash --config fennec.toml               # over USB
+#     fennec ota --host <device> --config fennec.toml --settings  # over Wi-Fi
+#
+# Keep one file per device (e.g. `kitchen.toml.local`, also ignored by git).
+
+[wifi]
+ssid = "my-network"
+# Leave empty for an open network. WPA2/WPA3 personal networks work.
+password = "secret"
+# Optional: the channel the network is on (1-13). The device scans it first,
+# which makes connecting quicker, especially to hidden networks. Without it,
+# every channel is scanned.
+# channel = 6
+
+[telegram]
+# Token of the bot this device posts as, from @BotFather. Use one bot per
+# device, so your main bot can tell devices apart by sender.
+bot_token = "123456789:AAH..."
+# The group the recordings go to. Group ids are negative numbers; see
+# docs/telegram.md for how to find yours. "@channelname" also works.
+chat_id = -1001234567890
+# Optional: post into a specific topic of a forum group.
+# message_thread_id = 42
+
+[device]
+# Shows up in every caption: `#fennec device=kitchen ...`
+name = "kitchen"
+# 0-255. The LED is very bright at full power.
+led_brightness = 40
+
+[wake_word]
+# Set to false to only record when the button is pressed.
+enabled = true
+# Model written to the device by `fennec flash` and `fennec ota --model`.
+# Relative to this file. Train your own with `fennec train`.
+model = "../models/hey_fennec.fkw"
+# Probability needed to trigger. Defaults to the threshold chosen during
+# training (see `fennec inspect`). Raise it if the device wakes up by itself,
+# lower it if it does not hear you.
+# threshold = 0.9
+# Consecutive model evaluations (100 ms apart) above the threshold needed to
+# trigger.
+consecutive = 2
+
+[audio]
+# Digital gain applied to the microphone, in dB.
+mic_gain_db = 12.0
+# The PDM channel the microphone is read from. If recordings are silent,
+# try "left".
+mic_channel = "right"
+# Silence after you stop talking that ends the recording.
+silence_ms = 1200
+# Give up if you say nothing for this long after the wake word.
+no_speech_ms = 4000
+# Recordings are kept in RAM (about 8 KB per second), so they are capped.
+max_recording_seconds = 12
+# How much louder than the background noise counts as speech.
+speech_margin_db = 9.0
+# Start button recordings this long before the press (0 to 5000 ms, 0 by
+# default). If the wake word is missed, press the button twice: the upload
+# holds the take it missed, ready for `fennec enroll`.
+# button_preroll_ms = 3000
+# Start wake word recordings this long before the detection (0 to 5000 ms,
+# 0 by default). Every false wake-up is then uploaded with the sound that
+# caused it, even if nothing follows, ready to train on as a negative. Real
+# wake-ups start with the wake word itself. 2000 covers the 1.5 s the model
+# hears. Shares its memory (about 8 KB a second) with button_preroll_ms.
+# wake_preroll_ms = 2000
+
+[ota]
+# Password for over-the-air updates (`fennec ota`). Without one, updates over
+# Wi-Fi are refused and only USB works. Anyone on your network who knows it
+# can replace the firmware, so make it long and random, e.g. the output of
+# `openssl rand -hex 16`.
+password = ""

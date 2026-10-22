@@ -1,0 +1,32 @@
+# The Atom Echo has 4 MB of flash.
+CONFIG_ESPTOOLPY_FLASHSIZE_4MB=y
+# The wake word model is read from flash on every inference; 80 MHz instead
+# of the default 40 MHz shortens that considerably. `fennec flash` writes the
+# same frequency into the bootloader header.
+CONFIG_ESPTOOLPY_FLASHFREQ_80M=y
+
+# Wake word inference and TLS run on the main task.
+CONFIG_ESP_MAIN_TASK_STACK_SIZE=24576
+CONFIG_PTHREAD_TASK_STACK_SIZE_DEFAULT=8192
+
+CONFIG_COMPILER_OPTIMIZATION_PERF=y
+CONFIG_ESP_DEFAULT_CPU_FREQ_MHZ_240=y
+
+# api.telegram.org is verified against the bundled root certificates.
+CONFIG_MBEDTLS_CERTIFICATE_BUNDLE=y
+CONFIG_MBEDTLS_CERTIFICATE_BUNDLE_DEFAULT_CMN=y
+# Keep the TLS buffers small: Telegram only needs a short-lived upload.
+CONFIG_MBEDTLS_DYNAMIC_BUFFER=y
+CONFIG_MBEDTLS_SSL_VARIABLE_BUFFER_LENGTH=y
+
+# CONFIG_I2S_ISR_IRAM_SAFE must stay off: esp-idf-hal registers I2S event
+# callbacks that are not in IRAM, and ESP-IDF then refuses to create the
+# driver ("on_recv callback not in IRAM"). The cost is that audio pauses
+# while flash is written, which only happens during OTA updates.
+
+CONFIG_LOG_DEFAULT_LEVEL_INFO=y
+
+# Over-the-air updates: boot the new image once, and go back to the previous
+# one unless it marks itself valid (after joining Wi-Fi).
+CONFIG_BOOTLOADER_APP_ROLLBACK_ENABLE=y
+CONFIG_HTTPD_MAX_REQ_HDR_LEN=1024

@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" role="img" aria-labelledby="title">
+  <title id="title">Fennec</title>
+  <g transform="translate(0 12)">
+    <!-- ears -->
+    <g stroke="#3B2618" stroke-width="7" stroke-linejoin="round">
+      <path fill="#E39B4F" d="M70 136 C 42 104 18 52 20 10 C 58 18 104 56 124 100 Z"/>
+      <path fill="#E39B4F" d="M186 136 C 214 104 238 52 236 10 C 198 18 152 56 132 100 Z"/>
+    </g>
+    <path fill="#FBE3C4" d="M76 124 C 56 96 40 60 38 32 C 64 42 96 70 112 102 Z"/>
+    <path fill="#FBE3C4" d="M180 124 C 200 96 216 60 218 32 C 192 42 160 70 144 102 Z"/>
+    <!-- head -->
+    <path fill="#E39B4F" stroke="#3B2618" stroke-width="7" stroke-linejoin="round" d="M128 92 C 174 92 204 116 206 146 C 208 170 180 188 154 204 Q 128 220 102 204 C 76 188 48 170 50 146 C 52 116 82 92 128 92 Z"/>
+    <!-- face mask -->
+    <path fill="#FBE3C4" d="M128 150 C 146 138 176 140 199 157 C 190 174 172 188 152 200 Q 128 214 104 200 C 84 188 66 174 57 157 C 80 140 110 138 128 150 Z"/>
+    <!-- eyes -->
+    <g fill="#3B2618">
+      <path d="M80 140 Q 96 118 118 134 Q 106 156 80 140 Z"/>
+      <path d="M176 140 Q 160 118 138 134 Q 150 156 176 140 Z"/>
+    </g>
+    <g fill="#FFFFFF">
+      <circle cx="104" cy="134" r="4"/>
+      <circle cx="152" cy="134" r="4"/>
+    </g>
+    <!-- nose -->
+    <path fill="#3B2618" d="M113 186 Q 128 178 143 186 Q 139 201 128 203 Q 117 201 113 186 Z"/>
+  </g>
+</svg>
